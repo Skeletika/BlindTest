@@ -1,0 +1,74 @@
+
+#form-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+}
+
+#form-page p{
+    font-size: 20px;
+}
+
+form {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#registration_form, #login {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+#registration_form div, #login div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+div label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+}
+
+div input {
+    padding: 12px 14px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+div input:focus {
+    border-color: #0bb7db;
+    box-shadow: 0 0 0 3px rgba(11, 183, 219, 0.15);
+}
+
+div button {
+    margin-top: 10px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0bb7db;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+div button:hover {
+    background-color: #099bb9;
+}
+
+div button:active {
+    transform: scale(0.98);
+}
