@@ -19,17 +19,19 @@ class QuestionsRepository extends ServiceEntityRepository
     //    /**
     //     * @return Questions[] Returns an array of Questions objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('q')
-    //            ->andWhere('q.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('q.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllQuestions(): array
+    {
+        return $this->createQueryBuilder('q')
+            ->select('q', 'c', 'cl', 'a')
+            ->leftJoin('q.categorie', 'c')
+            ->leftJoin('q.answer', 'a')
+            ->leftJoin('q.clue', 'cl')
+            ->orderBy('q.id', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     //    public function findOneBySomeField($value): ?Questions
     //    {

@@ -4,6 +4,9 @@
 
 {% block body %}
 
-PAGE DE L ACCUEIL
+<h1> Bienvenue 
+{% if user %}
+    {{ user.name}} {{ user.firstname}} ! 
+{% endif %} </h1>
 
 {% endblock %}

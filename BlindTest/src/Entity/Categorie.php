@@ -25,9 +25,6 @@ class Categorie
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $icon = null;
-
     /**
      * @var Collection<int, Questions>
      */
@@ -76,18 +73,6 @@ class Categorie
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(string $icon): static
-    {
-        $this->icon = $icon;
 
         return $this;
     }

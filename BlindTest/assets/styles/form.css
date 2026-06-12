@@ -1,4 +1,4 @@
-
+/* 
 #form-page{
     display: flex;
     flex-direction: column;
@@ -12,7 +12,10 @@
 }
 
 form {
-    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 20%;
     margin: 40px auto;
     padding: 25px;
     background-color: #ffffff;
@@ -20,15 +23,11 @@ form {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-#registration_form, #login {
+form div{
     display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-#registration_form div, #login div {
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 6px;
 }
 
@@ -71,4 +70,4 @@ div button:hover {
 
 div button:active {
     transform: scale(0.98);
-}
+} */

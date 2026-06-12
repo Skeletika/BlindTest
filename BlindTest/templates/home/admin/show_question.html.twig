@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMINISTRATOR{% endblock %}
+
+{% block body %}
+
+    <p>{{ question.id }}</p>
+    <p>{{ question.type }}</p>
+    <p>{{ question.question }}</p>
+    <p>{{ question.categorie.name }}</p>
+    <p>{{ question.clue.clue }}</p>
+    <img style="width: 200px;" src="{{ question.clue.path }}" alt="image ici">
+
+{% endblock %}

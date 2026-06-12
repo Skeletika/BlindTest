@@ -20,15 +20,6 @@ class Questions
     #[ORM\Column(type: Types::TEXT)]
     private ?string $question = null;
 
-    #[ORM\Column]
-    private ?int $categorie_id = null;
-
-    #[ORM\Column]
-    private ?int $clue_id = null;
-
-    #[ORM\Column]
-    private ?int $answer_id = null;
-
     #[ORM\ManyToOne(inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
@@ -66,42 +57,6 @@ class Questions
     public function setQuestion(string $question): static
     {
         $this->question = $question;
-
-        return $this;
-    }
-
-    public function getCategorieId(): ?int
-    {
-        return $this->categorie_id;
-    }
-
-    public function setCategorieId(int $categorie_id): static
-    {
-        $this->categorie_id = $categorie_id;
-
-        return $this;
-    }
-
-    public function getClueId(): ?int
-    {
-        return $this->clue_id;
-    }
-
-    public function setClueId(int $clue_id): static
-    {
-        $this->clue_id = $clue_id;
-
-        return $this;
-    }
-
-    public function getAnswerId(): ?int
-    {
-        return $this->answer_id;
-    }
-
-    public function setAnswerId(int $answer_id): static
-    {
-        $this->answer_id = $answer_id;
 
         return $this;
     }

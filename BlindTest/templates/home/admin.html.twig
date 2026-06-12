@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMINISTRATOR{% endblock %}
+
+{% block body %}
+
+<h1> Bienvenue sur l'interface ADMINS {{ user.name}} {{ user.firstname}}</h1>
+
+<p>Creer une nouvelle question :</p>
+<a href="{{ path('app_add_question') }}">Ajouter</a>
+
+<p>Creer une nouvelle catégorie :</p>
+<a href="{{ path('app_add_categorie') }}">Ajouter</a>
+
+{% endblock %}

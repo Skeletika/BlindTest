@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMINISTRATOR{% endblock %}
+
+{% block body %}
+
+<h1>Creer une nouvelle question :</h1>
+{{ form_start(form) }}
+
+        {{ form_row(form.type) }}
+        {{ form_row(form.question) }}
+        {{ form_row(form.categorie) }}
+        {{ form_row(form.clue) }}
+        {{ form_row(form.path) }}
+        <div class="tags-wrapper" data-prototype="{{ form_widget(form.answer.vars.prototype)|e('html_attr') }}">
+        
+            {{ form_row(form.answer) }}
+
+            <div id="tags-list">
+                {% for tagField in form.answer %}
+                    <div class="tag-item">
+                        {{ form_widget(tagField) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" id="add-tag" class="btn-primary btn">Ajouter une réponse</button>
+        </div> <br>
+
+        {{ form_row(form.save) }}
+
+{{ form_end(form) }}
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const wrapper = document.querySelector('.tags-wrapper');
+        const list = document.getElementById('tags-list');
+        const addBtn = document.getElementById('add-tag');
+
+        let index = list.children.length;
+
+        addBtn.addEventListener('click', function () {
+            const prototype = wrapper.dataset.prototype;
+            const newForm = prototype.replace(/__name__/g, index);
+
+            const div = document.createElement('div');
+            div.classList.add('tag-item');
+            div.innerHTML = newForm;
+
+            list.appendChild(div);
+            index++;
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const typeSelect = document.getElementById('add_question_form_type');
+    const clueInput = document.getElementById('add_question_form_path');
+
+    function updateInputType() {
+        const selectedType = typeSelect.value;
+
+        // Réinitialise toujours la valeur lors d'un changement
+        clueInput.value = '';
+
+        switch (selectedType) {
+
+            case 'image':
+                clueInput.type = 'file';
+                clueInput.accept = 'image/*';
+                break;
+
+            case 'audio':
+                clueInput.type = 'file';
+                clueInput.accept = 'audio/*';
+                break;
+
+            case 'video':
+                clueInput.type = 'file';
+                clueInput.accept = 'video/*';
+                break;
+        }
+    }
+
+    // Initialisation au chargement
+    updateInputType();
+
+    // Mise à jour lors du changement
+    typeSelect.addEventListener('change', updateInputType);
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ADMINISTRATOR{% endblock %}
+
+{% block body %}
+
+<h1>Créer une catégorie</h1>
+
+{{ form(form) }}
+
+<ul>
+    {% for categorie in categories %}
+        <li>{{ categorie.name }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

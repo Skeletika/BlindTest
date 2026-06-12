@@ -1,11 +1,24 @@
 <header>
     <nav>
+        {% if app.user and app.user.roles[0] != 'ROLE_USER'  %}
+            <ul>
+                <li><a href="{{ path('app_add_question') }}">Ajouter une question</a></li>
+                <li><a href="{{ path('app_add_categorie') }}">Ajouter une catégorie</a></li>
+                <li><a href="{{ path('app_all_questions') }}">Voir les questions</a></li>
+            </ul>
+        {% else %}
+            <ul>
+                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li><a href="{{ path('app_profile') }}">Profil</a></li>
+            </ul>
+        {% endif %}
+
         <ul>
-            <li><a href="{{ path('app_home') }}">Accueil</a></li>
-            <li><a href="{{ path('app_profile') }}">Profil</a></li>
-        </ul>
-        <ul>
-            <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+            {% if app.user %}
+                <li><a href="{{ path('app_logout') }}">Se deconnecter</a></li>
+            {% else %}
+                <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>

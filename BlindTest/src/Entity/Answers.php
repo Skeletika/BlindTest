@@ -14,7 +14,7 @@ class Answers
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private array $answer = [];
 
     public function getId(): ?int
