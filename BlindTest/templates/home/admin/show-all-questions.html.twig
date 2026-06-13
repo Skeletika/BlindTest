@@ -6,7 +6,12 @@
 
 <h1>Mes Questions</h1>
 
-<ul>
+{% for message in app.flashes('success') %}
+    <div class="flash-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
     <table class="table">
         <thead>
             <tr>
@@ -38,6 +43,8 @@
             </td>
             <td>
                 <a href="{{ path('app_admin_question', {id: question.id}) }}">Voir</a>
+                <a href="{{ path('app_admin_question_delete', {id: question.id}) }}">Supprimer</a>
+            
             </td>
         </tr>
         {% endfor %}

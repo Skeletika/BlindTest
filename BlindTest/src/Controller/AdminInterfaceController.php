@@ -92,7 +92,7 @@ final class AdminInterfaceController extends AbstractController
         $questions = $repository->findAllQuestions();
 
         // dd($questions);
-        return $this->render('home/admin/show-questions.html.twig', [
+        return $this->render('home/admin/show-all-questions.html.twig', [
             'questions' => $questions
         ]);
     }
@@ -103,5 +103,22 @@ final class AdminInterfaceController extends AbstractController
         return $this->render('home/admin/show_question.html.twig',[
             'question' => $question
         ]);
+    }
+
+    #[Route('/admin/question/delete/{id}', name: 'app_admin_question_delete')]
+    public function deleteQuestion(int $id, QuestionsRepository $questionRepository, EntityManagerInterface $em): Response {
+
+        $question = $questionRepository->find($id);
+
+        if (!$question) {
+            throw $this->createNotFoundException('Question introuvable');
+        }
+
+        $em->remove($question);
+        $em->flush();
+
+        $this->addFlash('success', 'Question bien supprimée');
+
+        return $this->redirectToRoute('app_all_questions');
     }
 }

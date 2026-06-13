@@ -33,6 +33,32 @@ class QuestionsRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findAllQuestionWithCategories(array $categories): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.categorie IN (:val)')
+            ->setParameter('val', $categories)
+            ->orderBy('q.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function takeQuestions(int $id): array
+    {
+        return $this->createQueryBuilder('q')
+            ->select('q', 'c', 'cl', 'a')
+            ->leftJoin('q.categorie', 'c')
+            ->leftJoin('q.answer', 'a')
+            ->leftJoin('q.clue', 'cl')
+            ->where('q.id = (:id)')
+            ->setParameter('id', $id)
+            ->orderBy('q.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //    public function findOneBySomeField($value): ?Questions
     //    {
     //        return $this->createQueryBuilder('q')
