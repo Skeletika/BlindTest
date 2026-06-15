@@ -1,4 +1,4 @@
-console.log('script');
+
     function init() {
         console.log('turbo');
         // ===== Tags =====

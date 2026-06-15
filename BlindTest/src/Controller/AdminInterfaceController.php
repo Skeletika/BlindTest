@@ -15,16 +15,16 @@ use App\Entity\Clues;
 use App\Entity\Answers;
 use App\Repository\CategorieRepository;
 use App\Repository\QuestionsRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
-
+#[IsGranted('ROLE_ADMIN', message: 'Accès réservé aux administrateurs.')]
 final class AdminInterfaceController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
         $user = $this->getUser();
-        if(!$user || $user->getRoles()[0] !== 'ROLE_ADMINSTRATOR') {
+        if(!$user || $user->getRoles()[0] !== 'ROLE_ADMIN') {
             return $this->redirectToRoute('app_home');
         }
         return $this->render('home/admin.html.twig', [

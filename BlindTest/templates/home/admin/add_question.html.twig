@@ -13,8 +13,6 @@
         {{ form_row(form.clue) }}
         {{ form_row(form.path) }}
         <div class="tags-wrapper" data-prototype="{{ form_widget(form.answer.vars.prototype)|e('html_attr') }}">
-        
-            {{ form_row(form.answer) }}
 
             <div id="tags-list">
                 {% for tagField in form.answer %}
@@ -25,6 +23,7 @@
             </div>
 
             <button type="button" id="add-tag" class="btn-primary btn">Ajouter une réponse</button>
+
         </div> <br>
 
         {{ form_row(form.save) }}

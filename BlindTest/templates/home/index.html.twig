@@ -16,23 +16,7 @@
     </div>
 
 {{ form_end(playForm) }}
-{% endblock %}
-
-{% block aside %}
-
-{% endblock %}
-
-{% block section %}
-
-{% endblock %}
-
-{% block right %}
-
-{% endblock %}
-
-{% block bottom %}
-
-{% endblock %}
+{% endblock %}  
 
 {% block javascript %}
 
@@ -54,6 +38,8 @@
     // événements
     timer.addEventListener('input', updateValues);
     nbQuestions.addEventListener('input', updateValues);
+
+    document.addEventListener('turbo:load', updateValues());
 </script>
 
 {% endblock %}

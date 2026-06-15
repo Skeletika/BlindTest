@@ -7,9 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\QuestionsRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+#[IsGranted('ROLE_USER', message: 'Accès réservé aux utilisateurs.')]
+
 final class GameController extends AbstractController
 {
     #[Route('/game', name: 'app_game')]
@@ -24,7 +31,10 @@ final class GameController extends AbstractController
         foreach($questions as $question){
             array_push($questionIds, $question->getId());
         }
-
+        if($questionIds == []){
+            $this->addFlash('noquestion', 'Pas de questions disponible');
+            return $this->redirectToRoute('app_home');
+        }
         // re-melange deuxieme fois
         $r = new \Random\Randomizer();
         $questionIds = $r->shuffleArray($questionIds);
@@ -90,5 +100,18 @@ final class GameController extends AbstractController
         $clue = $question->getClue()->getClue();
         $answer = $question->getAnswer()->getAnswer();
         dd($question->getQuestion(), $categorie, $clue, $answer);
+    }
+
+    #[Route('/game/result/{score}', name: 'app_game_result')]
+    public function viewResult(int $score, EntityManagerInterface $em){
+        $user = $this->getUser();
+        if ($score !== null && is_numeric($score)) {
+            $user->setPoints($user->getPoints() + (int) $score);
+            $em->flush();
+        }
+        return $this->json([
+            'redirect' => $this->generateUrl('app_profile'),
+            'score' => $score
+        ]);
     }
 }

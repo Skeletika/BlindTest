@@ -14,14 +14,13 @@
 {% block section %}
     <section id="question-container" class="question-card">
         <div class="align-auto">
-            <button id="play" onclick="next('{{ timer }}')">Lancer la partie</button>
+            <button id="play" class="btn-primary btn" onclick="next('{{ timer }}')">Lancer la partie</button>
         </div>
     </section>
 {% endblock %}
 
 {% block right %}
     <div class="right-container">
-        <p>ici rigth</p>
     </div>
 {% endblock %}
 
@@ -33,7 +32,7 @@
 
 {% block javascript %}
     <script>
-
+        let score = 0;
         async function next(timer) {
             const res = await fetch('{{ path("app_game_get_question")}}');
             if (!res.ok) {
@@ -43,7 +42,7 @@
             const data = await res.json();
 
             if (data.finished) {
-                alert('fin du jeu');
+                finishGame(score);
                 return;
             }
 
@@ -167,6 +166,7 @@
             input.type = 'text';
             input.placeholder = 'Votre réponse...';
             input.classList.add('answer-input');
+            input.autofocus = true;
 
             input.addEventListener('keydown', (e) => {
                 if (e.key !== 'Enter') return;
@@ -184,6 +184,7 @@
 
                     answerContainer.innerHTML = '';
                     answerContainer.appendChild(success);
+                    score++;
                 } else {
                     input.value = '';
                 }
@@ -203,5 +204,31 @@
 
             answerContainer.appendChild(input);
         }
+        function finishGame(score){
+            const questionContainer = document.getElementById('question-container');
+            questionContainer.innerHTML = '';
+            const container = document.createElement('div');
+            container.classList.add('align-auto');
+
+            const button = document.createElement('button');
+            button.onclick = () => redirectGame(score);
+            button.classList.add('btn-primary',  'btn');
+            button.textContent = "Voir les résultats";
+
+            container.append(button);
+            questionContainer.append(container);
+        }
+        function redirectGame(score){
+            // console.log('appel du fichier de fin de jeu');
+            let url = "{{ path('app_game_result', { score: '__score__' }) }}";
+            url = url.replace('__score__', score);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect + '?score=' + data.score;
+                    }
+                });
+                    }
     </script>
 {% endblock %}

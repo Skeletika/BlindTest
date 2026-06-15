@@ -1,20 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="profile-container">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/douce_wpcetsc/Project/BlindTestWeb/BlindTest/src/Controller/ProfileController.php</code></li>
-        <li>Your template at <code>/home/douce_wpcetsc/Project/BlindTestWeb/BlindTest/templates/profile/index.html.twig</code></li>
-    </ul>
+    <div class="profile-card">
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <label for="profile_picture" class="profile-picture">
+
+                {% if user.profilePath %}
+                    <img
+                        src="{{ asset(user.profilePath) }}"
+                        alt="Photo de profil"
+                    >
+                {% else %}
+                    <div class="profile-placeholder">
+                        +
+                    </div>
+                {% endif %}
+
+            </label>
+
+            <input
+                type="file"
+                name="profile_picture"
+                id="profile_picture"
+                hidden
+                onchange="this.form.submit()"
+            >
+
+        </form>
+
+        <h1>{{ user.firstname }} {{ user.name }}</h1>
+
+        <p class="pseudo">
+            @{{ user.pseudo }}
+        </p>
+
+        <div class="infos">
+
+            <div class="info">
+                <span>Email</span>
+                <p>{{ user.email }}</p>
+            </div>
+
+            <div class="info">
+                <span>Points</span>
+                <p>{{ user.points }}</p>
+            </div>
+
+        </div>
+
+        {% if scoreAdded %}
+            <div class="score-message">
+                +{{ scoreAdded }} points ajoutés !
+            </div>
+        {% endif %}
+
+    </div>
+
 </div>
+
 {% endblock %}
