@@ -33,15 +33,20 @@ class QuestionsRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findAllQuestionWithCategories(array $categories): array
+    public function findAllQuestionWithFilters(array $types, array $categories, int $nbQuestions): array
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.categorie IN (:val)')
-            ->setParameter('val', $categories)
-            ->orderBy('q.id', 'ASC')
+        $results = $this->createQueryBuilder('q')
+            ->select('q')
+            ->where('q.type IN (:types)')
+            ->andWhere('q.categorie IN (:categories)')
+            ->setParameter('categories', $categories)
+            ->setParameter('types', $types)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+        shuffle($results);
+
+        return array_slice($results, 0, $nbQuestions);
     }
 
     public function takeQuestions(int $id): array

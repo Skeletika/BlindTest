@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Player;
 use App\Form\FilterGameFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,11 +25,20 @@ final class HomeController extends AbstractController
         $playForm = $this->createForm(FilterGameFormType::class);
         $playForm->handleRequest($request);
         if($playForm->isSubmitted() && $playForm->isValid()){
+            $types = $playForm->get('types')->getData();
+            $timer = $playForm->get('timer')->getData();
+            $nbQuestions = $playForm->get('nb_questions')->getData();
             $categories = $playForm->get('categories')->getData();
-            $ids = $categories->map(fn($c) => $c->getId())->toArray();
+            $idsCategories = $categories->map(fn($c) => $c->getId())->toArray();
 
             $session = $request->getSession();
-            $session->set('filter_categories', $ids);
+            $session->set('filters_game', [
+                'types' => $types,
+                'nbQuestions'=> $nbQuestions,
+                'categories' => $idsCategories
+                ]
+            );
+            $session->set('timer', $timer);
             return $this->redirectToRoute('app_game');
         }
         return $this->render('home/index.html.twig', [

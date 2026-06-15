@@ -13,6 +13,9 @@
 
 {% block section %}
     <section id="question-container" class="question-card">
+        <div class="align-auto">
+            <button id="play" onclick="next('{{ timer }}')">Lancer la partie</button>
+        </div>
     </section>
 {% endblock %}
 
@@ -30,6 +33,7 @@
 
 {% block javascript %}
     <script>
+
         async function next(timer) {
             const res = await fetch('{{ path("app_game_get_question")}}');
             if (!res.ok) {
@@ -46,9 +50,7 @@
             renderQuestion(data, timer);
 
         }
-        let timer = 15000;
-        next(timer)
-        // 🕞
+
         function renderReponse(data){
             const questionContainer = document.getElementById('question-container');
             questionContainer.innerHTML = '';
@@ -78,6 +80,11 @@
             const headQuestion = document.createElement('div');
             headQuestion.classList.add('head-question');
             headQuestion.append(categorieTimer, response);
+
+            const inputResponse = document.getElementById('inputResponse');
+            if(inputResponse){
+                inputResponse.disabled = true;
+            }
 
             questionContainer.append(headQuestion, answerContainer);
         }
@@ -134,7 +141,8 @@
                     case 'video':
                         media = document.createElement('video');
                         media.src = data.indice.path;
-                        media.controls = true;
+                        media.controls = false;
+                        media.autoplay = true;
                         break;
 
                     case 'audio':
@@ -155,6 +163,7 @@
 
             // ----- Réponse -----
             const input = document.createElement('input');
+            input.id = "inputResponse";
             input.type = 'text';
             input.placeholder = 'Votre réponse...';
             input.classList.add('answer-input');

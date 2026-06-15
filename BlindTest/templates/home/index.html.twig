@@ -3,7 +3,19 @@
 {% block title %}Slurp'{% endblock %}
 
 {% block body %}
-    {{ form(playForm) }}
+{{ form_start(playForm) }}
+
+    <div class="range-block">
+        {{ form_row(playForm.timer) }}
+        <span id="timer-value"></span>
+    </div>
+
+    <div class="range-block">
+        {{ form_row(playForm.nb_questions) }}
+        <span id="nb-questions-value"></span>
+    </div>
+
+{{ form_end(playForm) }}
 {% endblock %}
 
 {% block aside %}
@@ -19,5 +31,29 @@
 {% endblock %}
 
 {% block bottom %}
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+    const timer = document.getElementById('filter_game_form_timer');
+    const nbQuestions = document.getElementById('filter_game_form_nb_questions');
+
+    const timerDisplay = document.getElementById('timer-value');
+    const nbDisplay = document.getElementById('nb-questions-value');
+
+    function updateValues() {
+        timerDisplay.textContent = timer.value + " sec";
+        nbDisplay.textContent = nbQuestions.value + " questions";
+    }
+
+    // initialisation
+    updateValues();
+
+    // événements
+    timer.addEventListener('input', updateValues);
+    nbQuestions.addEventListener('input', updateValues);
+</script>
 
 {% endblock %}

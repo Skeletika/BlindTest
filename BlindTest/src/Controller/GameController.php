@@ -16,17 +16,25 @@ final class GameController extends AbstractController
     public function index(SessionInterface $session, Request $request, QuestionsRepository $questionsRepo): Response
     {
         $session = $request->getSession();
-        $ids = $session->get('filter_categories');
-
-        $questions = $questionsRepo->findAllQuestionWithCategories($ids);
+        $filter = $session->get('filters_game');
+        $timer = $session->get('timer') * 1000; // convertion en ms
+        // dd($filter['types'], $filter['categories'], $filter['nbQuestions']);
+        $questions = $questionsRepo->findAllQuestionWithFilters($filter['types'], $filter['categories'], $filter['nbQuestions']);
         $questionIds = [];
         foreach($questions as $question){
             array_push($questionIds, $question->getId());
         }
+
+        // re-melange deuxieme fois
+        $r = new \Random\Randomizer();
+        $questionIds = $r->shuffleArray($questionIds);
+        
         $session->set('questionsIds', $questionIds);
         $session->set('current_index', 0);
         
-        return $this->render('game/index.html.twig');
+        return $this->render('game/index.html.twig', [
+            'timer' => $timer
+        ]);
     }
 
     #[Route('/game/next', name: 'app_game_get_question')]
@@ -42,7 +50,7 @@ final class GameController extends AbstractController
         $question = $repo->takeQuestions($ids[$index]);
         $question = $question[0];
         $categorie = $question->getCategorie()->getName();
-        
+
         $clueText = $question->getClue()?->getClue();
         $cluePath = $question->getClue()?->getPath();
         $clueType = null;

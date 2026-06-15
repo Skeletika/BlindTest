@@ -119,6 +119,22 @@ nav ul li a:hover{
     width: 15%;
 }
 
+.align-auto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.range-block{
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
 .question-card {
     display: flex;
     flex-direction: column;
