@@ -7,4 +7,10 @@ import './stimulus_bootstrap.js';
  */
 import './styles/app.css';
 
+import { initGame } from './js/game.js';
+
+document.addEventListener('turbo:load', () => {
+    initGame();
+});
+
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

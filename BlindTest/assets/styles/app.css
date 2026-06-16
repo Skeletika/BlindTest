@@ -530,3 +530,21 @@ fieldset {
         flex-direction: column;
     }
 }
+
+
+/* anime.js */
+
+.audio-visualizer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.audio-visualizer .square {
+    width: 25px;
+    height: 25px;
+    border: 4px solid currentColor;
+    border-radius: 8px;
+}

@@ -25,14 +25,12 @@ final class GameController extends AbstractController
         $session = $request->getSession();
         $filter = $session->get('filters_game');
         $timer = $session->get('timer') * 1000; // convertion en ms
-        // dd($filter['types'], $filter['categories'], $filter['nbQuestions']);
         $questions = $questionsRepo->findAllQuestionWithFilters($filter['types'], $filter['categories'], $filter['nbQuestions']);
-        $questionIds = [];
+        $questionIds = $questions;
         foreach($questions as $question){
             array_push($questionIds, $question->getId());
         }
         if($questionIds == []){
-            $this->addFlash('noquestion', 'Pas de questions disponible');
             return $this->redirectToRoute('app_home');
         }
         // re-melange deuxieme fois
@@ -89,17 +87,6 @@ final class GameController extends AbstractController
             ],
             'answer' => $answer
         ]);
-    }
-
-    #[Route('/game/next/{id}', name: 'app_game_one_question')]
-    public function viewQuestion(QuestionsRepository $repo, int $id)
-    {
-        $question = $repo->takeQuestions($id);
-        $question = $question[0];
-        $categorie = $question->getCategorie()->getName();
-        $clue = $question->getClue()->getClue();
-        $answer = $question->getAnswer()->getAnswer();
-        dd($question->getQuestion(), $categorie, $clue, $answer);
     }
 
     #[Route('/game/result/{score}', name: 'app_game_result')]
